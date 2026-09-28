@@ -1,6 +1,3 @@
-using System.Diagnostics.Tracing;
-using Microsoft.VisualBasic;
-
 class CSlotmachine
 {
     private float _soldi;
@@ -99,6 +96,79 @@ class CSlotmachine
             int guadagno = random.Next(50, 101);
             _soldi += guadagno;
             Console.WriteLine($"Oggi hai fatto gli straordinari, perciò il capo ha deciso di premiarti dandoti {guadagno}€.");
+        }
+    }
+
+    public void Craps(float bet)
+    {
+        if(bet > _soldi)
+        {
+            Console.WriteLine("Non puoi scommettere così tanto!");
+        } else
+        {
+            _soldi -= bet;
+            Random random = new Random();
+            int n1 = random.Next(1, 7);
+            int n2 = random.Next(1, 7);
+
+            if(n1 + n2 == 7 || n1 + n2 == 11)
+            {
+                _soldi += bet * 2;
+                Console.WriteLine($"{n1} | {n2}");
+                Console.WriteLine("Hai vinto!");
+                Console.WriteLine($"Somma: {n1 + n2}");
+            } else if(n1 + n2 == 2 || n1 + n2 == 3 || n1 + n2 == 12)
+            {
+                Console.WriteLine($"{n1} | {n2}");
+                Console.WriteLine("Hai perso!");
+                Console.WriteLine($"Somma: {n1 + n2}");
+            } else if(n1 + n2 == 4 || n1 + n2 == 5 || n1 + n2 == 6 || n1 + n2 == 8 || n1 + n2 == 9 || n1 + n2 == 10)
+            {
+                _soldi += bet;
+                Console.WriteLine($"{n1} | {n2}");
+                Console.WriteLine($"POINT!");
+                Console.WriteLine($"Somma: {n1 + n2}");
+            }
+        }
+    }
+
+    public void Roulette(float bet, string colore)
+    {
+        if(bet > _soldi)
+        {
+            Console.WriteLine("Non puoi scommettere così tanto!");
+        } else
+        {
+            _soldi -= bet;
+            
+            Random random = new Random();
+            int numColore = random.Next(1, 3);
+            int Verde = random.Next(1, 38);
+            if(Verde != 37 && numColore == 1 && colore == "rosso")
+            {
+                _soldi += bet * 2;
+                Console.WriteLine($"Hai vinto! Hai puntato sul {colore}!");
+            } else if(Verde != 37 && numColore == 2 && colore == "nero")
+            {
+                _soldi += bet * 2;
+                Console.WriteLine($"Hai vinto! Hai puntato sul {colore}!");
+            } else if(Verde == 37 && colore == "verde")
+            {
+                _soldi += bet * 5;
+                Console.WriteLine($"HAI VINTO PUNTANDO SUL {colore}!!!!!");
+            } else
+            {
+                if(numColore == 1 && Verde != 37)
+                {
+                    Console.WriteLine($"Hai perso! La pallina è caduta sul nero!");
+                } else if(numColore == 2 && Verde != 37)
+                {
+                    Console.WriteLine($"Hai perso! La pallina è caduta sul rosso!");
+                } else if(Verde == 37)
+                {
+                    Console.WriteLine("$Hai perso, la pallina è sorprendentemente caduta sul verde!");
+                }
+            }
         }
     }
     public void Visualizza()
